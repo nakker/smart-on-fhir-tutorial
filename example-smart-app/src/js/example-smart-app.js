@@ -45,7 +45,7 @@ function fetchall(smart, name) {
         var p = defaults();
         
         var values = {};
-        var properties = [  "Patient", 
+        var properties = [  //"Patient", 
                             "AllergyIntolerance",
                             "Appointment",
                             "Binary",
@@ -73,7 +73,7 @@ function fetchall(smart, name) {
         var pt = patient.read();
         
         $.when(pt).done(function(Patient) {
-            p.patient = Patient.entry.resource.text.div;
+            p.patient = Patient[0].text.div;
             ret.resolve(p);
         });
         
