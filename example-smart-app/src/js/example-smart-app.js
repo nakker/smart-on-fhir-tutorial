@@ -19,6 +19,12 @@ function fetchall(smart, name) {
     return val;
 }
 
+function is_resolved(props_loaded, properties, p, ret) {
+    if(p.patient && props_loaded == properties.length) {
+        ret.resolve(p);
+    }
+}
+
 (function(window){
   window.extractData = function() {
     var ret = $.Deferred();
@@ -71,33 +77,33 @@ function fetchall(smart, name) {
         
         var patient = smart.patient;
         var pt = patient.read();
+        var props_loaded = 0;
         
         $.when(pt).done(function(Patient) {
             console.log("#################### Patient ####################");
             console.log(Patient);
             p.patient = Patient.text.div;
-            ret.resolve(p);
+            is_resolved(props_loaded, properties, p, ret);
         });
         
+        
         properties.forEach(function (obj_name){
-            var element_name = 'loading_'+ obj_name;
-            
-            var loadme = $( "#loading" ).clone();
-            loadme.children("h2").text(obj_name);
-            loadme.attr('id', element_name);
-            $("#all_the_data").append(loadme);
-            loadme.show();
-            
-            console.log(obj_name);
             
             values[obj_name] = fetchall(smart, obj_name);
             
-            $.when(values[obj_name]).fail(onError);
+            $.when(values[obj_name]).fail(function() {
+                console.log('/!\\ ' + arguments[0].config.type + ' Loading error: ' + arguments[0].error.responseText, arguments);
+                props_loaded += 1;
+                is_resolved(props_loaded, properties, p, ret);
+            });
+            
             $.when(values[obj_name]).done(function(object) {
                 if(object) {
                     console.log("-----------------"+obj_name+"------------------");
                     console.log(object);
-                    $('#' + element_name).html( "<h2>"+obj_name+"</h2><p style='font-size:6px'>" + JSON.stringify(object) + '</p>');
+                    p.content += "<h2>"+obj_name+"</h2><p style='font-size:6px'>" + JSON.stringify(object) + '</p>';
+                    props_loaded += 1;
+                    is_resolved(props_loaded, properties, p, ret);
                 }
             });
         });
