@@ -84,6 +84,7 @@ function fetchall(smart, name) {
             loadme.children(".name").text(obj_name);
             loadme.attr('id', 'loading_'+ obj_name);
             loadme.appendTo( "#all_the_data" );
+            loadme.show();
             
             console.log(obj_name);
             values[obj_name] = fetchall(smart, obj_name);
