@@ -32,10 +32,16 @@
                       }
                     }
                   });
+        
+        var conditions = smart.patient.api.fetchAll({
+          type: 'Condition',
+          category: 'problem',
+          clinicalstatus: 'active'
+        });
+                  
+        $.when(pt, obv, conditions).fail(onError);
 
-        $.when(pt, obv).fail(onError);
-
-        $.when(pt, obv).done(function(patient, obv) {
+        $.when(pt, obv, conditions).done(function(patient, obv) {
           var byCodes = smart.byCodes(obv, 'code');
           var gender = patient.gender;
 
@@ -70,7 +76,9 @@
 
           p.hdl = getQuantityValueAndUnit(hdl[0]);
           p.ldl = getQuantityValueAndUnit(ldl[0]);
-
+            
+          p.problem_list = JSON.stringify(conditions);
+          
           ret.resolve(p);
         });
       } else {
@@ -94,6 +102,7 @@
       diastolicbp: {value: ''},
       ldl: {value: ''},
       hdl: {value: ''},
+      problem_list: {value: ''}
     };
   }
 
@@ -137,6 +146,7 @@
     $('#diastolicbp').html(p.diastolicbp);
     $('#ldl').html(p.ldl);
     $('#hdl').html(p.hdl);
+    $('#problem_list').html(p.problem_list);
   };
 
 })(window);
