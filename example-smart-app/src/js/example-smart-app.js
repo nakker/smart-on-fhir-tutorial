@@ -63,7 +63,7 @@ function fetchall(smart, name) {
                             "Binary",
                             "CarePlan",
                             "Condition",
-                            "Contract",
+                            //"Contract",
                             "Device",
                             "DiagnosticReport",
                             "DocumentReference",
