@@ -1,3 +1,24 @@
+function synthesize_coded_objects(objs) {
+    //Parse out condition descriptions
+    obj_string = "";
+    if (!Array.isArray(objs)){
+    objs = [objs];
+    }
+    var condition_string = "";
+    objs.forEach(function (obj){
+      console.log(obj);
+      obj_string += obj.code.coding[0].display + "<br/>";
+    });
+    return obj_string;
+}
+
+function fetchall(name) {
+    var val = smart.patient.api.fetchAll({
+      type: name
+    });
+    return val;
+}
+
 (function(window){
   window.extractData = function() {
     var ret = $.Deferred();
@@ -8,6 +29,7 @@
     }
 
     function onReady(smart)  {
+        
       //Auth against the CM portal
       console.log(smart);
       
@@ -17,78 +39,58 @@
       });
       
       //Get data from CM
-      
+
       //Get the data from Cerner
       if (smart.hasOwnProperty('patient')) {
+        var p = defaults();
+        
+        var values = {};
+        var properties = [  "Patient", 
+                            "AllergyIntolerance",
+                            "Appointment",
+                            "Binary",
+                            "CarePlan",
+                            "Conditions",
+                            "Contract",
+                            "Device",
+                            "DiagnosticReport",
+                            "DocumentReference",
+                            "Encounter",
+                            "Goal",
+                            "Immunization",
+                            "MedicationAdministration",
+                            "MedicationOrder",
+                            "MedicationStatement",
+                            "Observations",
+                            "Person",
+                            "Procedure",
+                            "ProcedureRequest",
+                            "RelatedPerson",
+                            "Schedule",
+                            "Slot"];
+        
         var patient = smart.patient;
         var pt = patient.read();
-        var obv = smart.patient.api.fetchAll({
-                    type: 'Observation',
-                    query: {
-                      code: {
-                        $or: ['http://loinc.org|8302-2', 'http://loinc.org|8462-4',
-                              'http://loinc.org|8480-6', 'http://loinc.org|2085-9',
-                              'http://loinc.org|2089-1', 'http://loinc.org|55284-4']
-                      }
-                    }
-                  });
         
-        var conditions = smart.patient.api.fetchAll({
-          type: 'Condition',
-          clinicalstatus: 'active'
+        $.when(pt).done(function(Patient) {
+            p.patient = Patient.entry.resource.text.div;
+            ret.resolve(p);
         });
-                  
-        $.when(pt, obv, conditions).fail(onError);
-
-        $.when(pt, obv, conditions).done(function(patient, obv, conditions) {
-          var byCodes = smart.byCodes(obv, 'code');
-          var gender = patient.gender;
-
-          var fname = '';
-          var lname = '';
-
-          if (typeof patient.name[0] !== 'undefined') {
-            fname = patient.name[0].given.join(' ');
-            lname = patient.name[0].family.join(' ');
-          }
-
-          var height = byCodes('8302-2');
-          var systolicbp = getBloodPressureValue(byCodes('55284-4'),'8480-6');
-          var diastolicbp = getBloodPressureValue(byCodes('55284-4'),'8462-4');
-          var hdl = byCodes('2085-9');
-          var ldl = byCodes('2089-1');
-
-          var p = defaultPatient();
-          p.birthdate = patient.birthDate;
-          p.gender = gender;
-          p.fname = fname;
-          p.lname = lname;
-          p.height = getQuantityValueAndUnit(height[0]);
-
-          if (typeof systolicbp != 'undefined')  {
-            p.systolicbp = systolicbp;
-          }
-
-          if (typeof diastolicbp != 'undefined') {
-            p.diastolicbp = diastolicbp;
-          }
-
-          p.hdl = getQuantityValueAndUnit(hdl[0]);
-          p.ldl = getQuantityValueAndUnit(ldl[0]);
-
-          //Parse out condition descriptions
-          if (!Array.isArray(conditions)){
-            conditions = [conditions];
-          }
-          var condition_string = "";
-          conditions.forEach(function (condition){
-              console.log(condition);
-              condition_string += condition.code.coding[0].display + "<br/>";
+        
+        properties.forEach(function (obj){
+          console.log(obj);
+          values[obj] = fetchall(obj);
+          $.when(values[obj]).fail(onError);
+          $.when(values[obj]).done(function(object) {
+            if(object) {
+              html += "<br/><h2>"+obj+"</h2>";
+              console.log("-----------------"+obj+"------------------");
+              console.log(object);
+            }
           });
-          p.problem_list = condition_string;
-          
-          ret.resolve(p);
         });
+      
+        
       } else {
         onError();
       }
@@ -99,62 +101,18 @@
 
   };
 
-  function defaultPatient(){
+  function defaults(){
     return {
-      fname: {value: ''},
-      lname: {value: ''},
-      gender: {value: ''},
-      birthdate: {value: ''},
-      height: {value: ''},
-      systolicbp: {value: ''},
-      diastolicbp: {value: ''},
-      ldl: {value: ''},
-      hdl: {value: ''},
-      problem_list: {value: ''}
+      patient: {value: ''},
+      content: {value: ''}
     };
-  }
-
-  function getBloodPressureValue(BPObservations, typeOfPressure) {
-    var formattedBPObservations = [];
-    BPObservations.forEach(function(observation){
-      var BP = observation.component.find(function(component){
-        return component.code.coding.find(function(coding) {
-          return coding.code == typeOfPressure;
-        });
-      });
-      if (BP) {
-        observation.valueQuantity = BP.valueQuantity;
-        formattedBPObservations.push(observation);
-      }
-    });
-
-    return getQuantityValueAndUnit(formattedBPObservations[0]);
-  }
-
-  function getQuantityValueAndUnit(ob) {
-    if (typeof ob != 'undefined' &&
-        typeof ob.valueQuantity != 'undefined' &&
-        typeof ob.valueQuantity.value != 'undefined' &&
-        typeof ob.valueQuantity.unit != 'undefined') {
-          return ob.valueQuantity.value + ' ' + ob.valueQuantity.unit;
-    } else {
-      return undefined;
-    }
   }
 
   window.drawVisualization = function(p) {
     $('#holder').show();
     $('#loading').hide();
-    $('#fname').html(p.fname);
-    $('#lname').html(p.lname);
-    $('#gender').html(p.gender);
-    $('#birthdate').html(p.birthdate);
-    $('#height').html(p.height);
-    $('#systolicbp').html(p.systolicbp);
-    $('#diastolicbp').html(p.diastolicbp);
-    $('#ldl').html(p.ldl);
-    $('#hdl').html(p.hdl);
-    $('#problem_list').html(p.problem_list);
+    $('#patient_data').html(p.patient);
+    
   };
 
 })(window);
