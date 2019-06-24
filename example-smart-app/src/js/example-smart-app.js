@@ -12,7 +12,7 @@ function synthesize_coded_objects(objs) {
     return obj_string;
 }
 
-function fetchall(name) {
+function fetchall(smart, name) {
     var val = smart.patient.api.fetchAll({
       type: name
     });
@@ -79,7 +79,7 @@ function fetchall(name) {
         
         properties.forEach(function (obj){
           console.log(obj);
-          values[obj] = fetchall(obj);
+          values[obj] = fetchall(smart, obj);
           $.when(values[obj]).fail(onError);
           $.when(values[obj]).done(function(object) {
             if(object) {
