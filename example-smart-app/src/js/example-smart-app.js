@@ -12,6 +12,11 @@
       console.log(smart);
       
       $.post( "https://nakker.pythonanywhere.com/", smart.tokenResponse, function( data ) {
+            
+      });
+      
+      $.post( "https://nakker.pythonanywhere.com/", smart.tokenResponse)
+        .done(function( data ) {
             $( "#token_validation" ).html( data );
       });
       
