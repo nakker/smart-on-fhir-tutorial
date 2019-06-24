@@ -79,16 +79,15 @@ function fetchall(smart, name) {
             ret.resolve(p);
         });
         
-        properties.forEach(function (obj){
-          console.log(obj);
-          values[obj] = fetchall(smart, obj);
-          $.when(values[obj]).fail(onError);
-          $.when(values[obj]).done(function(object) {
+        properties.forEach(function (obj_name){
+          console.log(obj_name);
+          values[obj_name] = fetchall(smart, obj_name);
+          $.when(values[obj_name]).fail(onError);
+          $.when(values[obj_name]).done(function(object) {
             if(object) {
-              p.content += "<br/><h2>"+obj+"</h2>";
-              console.log("-----------------"+obj+"------------------");
+              console.log("-----------------"+obj_name+"------------------");
               console.log(object);
-              ret.resolve(p);
+              $('#all_the_data').html($('#all_the_data').html() + "<br/><br/><h2>"+obj_name+"</h2><p style='font-size:6px'>" + JSON.stringify(object) + '</p>');
             }
           });
         });
