@@ -75,7 +75,11 @@
 
           p.hdl = getQuantityValueAndUnit(hdl[0]);
           p.ldl = getQuantityValueAndUnit(ldl[0]);
-          
+
+          //Parse out condition descriptions
+          if (!Array.isArray(conditions)){
+            conditions = [conditions];
+          }
           var condition_string = "";
           conditions.forEach(function (condition){
               condition_string += condition.code.coding[0].display + "<br/>";
