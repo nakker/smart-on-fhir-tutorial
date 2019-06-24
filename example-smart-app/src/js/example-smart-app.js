@@ -22,6 +22,10 @@ function fetchall(smart, name) {
 function is_resolved(props_loaded, properties, p, ret) {
     if(p.patient && props_loaded == properties.length) {
         ret.resolve(p);
+    } else {
+        var mylog = "Loaded " + props_loaded + " of " + properties.length + " elements";
+        console.log(mylog);
+        $("#loading").children("h2").html(mylog);
     }
 }
 
