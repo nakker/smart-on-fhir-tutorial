@@ -24,7 +24,7 @@ function fetchall(smart, name) {
     var ret = $.Deferred();
 
     function onError() {
-      console.log('/!\ ' + arguments[0].config.type + ' Loading error: ' + arguments[0].error.responseText, arguments);
+      console.log('/!\\ ' + arguments[0].config.type + ' Loading error: ' + arguments[0].error.responseText, arguments);
       //ret.reject();
     }
 
@@ -88,6 +88,7 @@ function fetchall(smart, name) {
               p.content += "<br/><h2>"+obj+"</h2>";
               console.log("-----------------"+obj+"------------------");
               console.log(object);
+              ret.resolve(p);
             }
           });
         });
