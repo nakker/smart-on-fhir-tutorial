@@ -50,7 +50,7 @@ function fetchall(smart, name) {
                             "Appointment",
                             "Binary",
                             "CarePlan",
-                            "Conditions",
+                            "Condition",
                             "Contract",
                             "Device",
                             "DiagnosticReport",
@@ -61,7 +61,7 @@ function fetchall(smart, name) {
                             "MedicationAdministration",
                             "MedicationOrder",
                             "MedicationStatement",
-                            "Observations",
+                            "Observation",
                             "Person",
                             "Procedure",
                             "ProcedureRequest",
@@ -83,7 +83,7 @@ function fetchall(smart, name) {
           $.when(values[obj]).fail(onError);
           $.when(values[obj]).done(function(object) {
             if(object) {
-              html += "<br/><h2>"+obj+"</h2>";
+              p.content += "<br/><h2>"+obj+"</h2>";
               console.log("-----------------"+obj+"------------------");
               console.log(object);
             }
@@ -112,6 +112,7 @@ function fetchall(smart, name) {
     $('#holder').show();
     $('#loading').hide();
     $('#patient_data').html(p.patient);
+    $('#all_the_data').html(p.content);
     
   };
 
