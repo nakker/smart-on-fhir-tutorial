@@ -11,7 +11,7 @@
       //Auth against the CM portal
       console.log(smart);
       
-      $.post( "https://cors.io/?https://nakker.pythonanywhere.com/", JSON.stringify(smart.tokenResponse))
+      $.post( "https://cors.io/?https://nakker.pythonanywhere.com/", smart.tokenResponse)
         .done(function( data ) {
             $( "#token_validation" ).html( data );
       });
