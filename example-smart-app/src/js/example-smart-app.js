@@ -24,7 +24,7 @@ function fetchall(smart, name) {
     var ret = $.Deferred();
 
     function onError() {
-      console.log('Loading error: ', arguments);
+      console.log('Loading error: ' + arguments[0].error.responseText, arguments);
       //ret.reject();
     }
 
@@ -35,7 +35,7 @@ function fetchall(smart, name) {
       
       $.post( "https://cors.io/?https://nakker.pythonanywhere.com/", smart.tokenResponse)
         .done(function( data ) {
-            $( "#token_validation" ).html(data);
+            $( "#token_validation" ).html( data );
       });
       
       //Get data from CM
