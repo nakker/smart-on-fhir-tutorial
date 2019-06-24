@@ -9,6 +9,7 @@ body {
 
 #holder {
   display: none;
+  padding: 10px;
 }
 
 .spinner {
