@@ -34,12 +34,13 @@
                   });
         
         var conditions = smart.patient.api.fetchAll({
-          type: 'Condition'
+          type: 'Condition',
+          clinicalstatus: 'active'
         });
                   
         $.when(pt, obv, conditions).fail(onError);
 
-        $.when(pt, obv, conditions).done(function(patient, obv, conditions) {
+        $.when(pt, obv, conditions).done(function(patient, obv) {
           var byCodes = smart.byCodes(obv, 'code');
           var gender = patient.gender;
 
@@ -74,8 +75,12 @@
 
           p.hdl = getQuantityValueAndUnit(hdl[0]);
           p.ldl = getQuantityValueAndUnit(ldl[0]);
-            
-          p.problem_list = JSON.stringify(conditions);
+          
+          var condition_string = "";
+          conditions.forEach(function (condition){
+              condition_string += condition.code.coding[0].display + "<br/>";
+          });
+          p.problem_list = condition_string;
           
           ret.resolve(p);
         });
