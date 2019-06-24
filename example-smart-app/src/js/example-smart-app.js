@@ -75,7 +75,7 @@ function fetchall(smart, name) {
         $.when(pt).done(function(Patient) {
             console.log("-----------------Patient------------------");
             console.log(Patient);
-            p.patient = Patient[0].text.div;
+            p.patient = Patient.text.div;
             ret.resolve(p);
         });
         
