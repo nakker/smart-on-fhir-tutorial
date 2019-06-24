@@ -11,7 +11,7 @@
       //Auth against the CM portal
       console.log(smart);
       
-      $.post( "https://nakker.pythonanywhere.com/", function( data ) {
+      $.post( "https://nakker.pythonanywhere.com/", function( data, smart.tokenResponse ) {
             $( "#token_validation" ).html( data );
       });
       
