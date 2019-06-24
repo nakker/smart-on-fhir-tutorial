@@ -73,7 +73,7 @@ function fetchall(smart, name) {
         var pt = patient.read();
         
         $.when(pt).done(function(Patient) {
-            console.log("-----------------Patient------------------");
+            console.log("#################### Patient ####################");
             console.log(Patient);
             p.patient = Patient.text.div;
             ret.resolve(p);
