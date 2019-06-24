@@ -47,7 +47,7 @@ function fetchall(smart, name) {
       
       $.post( "https://cors.io/?https://nakker.pythonanywhere.com/", smart.tokenResponse)
         .done(function( data ) {
-            $( "#token_validation" ).html( data );
+            $( "#token_validation" ).html(data);
       });
       
       //Get data from CM
