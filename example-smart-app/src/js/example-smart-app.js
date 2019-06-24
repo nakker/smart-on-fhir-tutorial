@@ -34,7 +34,8 @@
                   });
         
         var conditions = smart.patient.api.fetchAll({
-          type: 'Condition'
+          type: 'Condition',
+          clinicalstatus: 'active'
         });
                   
         $.when(pt, obv, conditions).fail(onError);
