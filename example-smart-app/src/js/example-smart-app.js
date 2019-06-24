@@ -107,7 +107,7 @@ function fetchall(smart, name) {
                 if(object) {
                     console.log("-----------------"+obj_name+"------------------");
                     console.log(object);
-                    p.content += "<h2>"+obj_name+"</h2><p style='font-size:6px'>" + JSON.stringify(object) + '</p>';
+                    p.content += "<h2>"+obj_name+"</h2><p style='font-size:10px'>" + object.text.div + '</p>';
                     props_loaded += 1;
                     is_resolved(props_loaded, properties, p, ret);
                 }
