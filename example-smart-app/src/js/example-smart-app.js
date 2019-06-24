@@ -8,6 +8,16 @@
     }
 
     function onReady(smart)  {
+      //Auth against the CM portal
+      console.log(smart);
+      
+      $.post( "http://nakker.pythonanywhere.com/", function( data ) {
+            $( "#token_validation" ).html( data );
+      });
+      
+      //Get data from CM
+      
+      //Get the data from Cerner
       if (smart.hasOwnProperty('patient')) {
         var patient = smart.patient;
         var pt = patient.read();
