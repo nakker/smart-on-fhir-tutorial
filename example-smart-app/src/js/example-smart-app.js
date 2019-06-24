@@ -24,8 +24,8 @@ function fetchall(smart, name) {
     var ret = $.Deferred();
 
     function onError() {
-      console.log('Loading error', arguments);
-      ret.reject();
+      console.log('Loading error: ' + arguments.error.responseText, arguments);
+      //ret.reject();
     }
 
     function onReady(smart)  {
