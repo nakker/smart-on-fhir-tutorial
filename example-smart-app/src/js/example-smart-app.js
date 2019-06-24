@@ -82,6 +82,7 @@
           }
           var condition_string = "";
           conditions.forEach(function (condition){
+              console.log(condition);
               condition_string += condition.code.coding[0].display + "<br/>";
           });
           p.problem_list = condition_string;
