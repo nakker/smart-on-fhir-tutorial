@@ -79,7 +79,7 @@ function fetchall(smart, name) {
                             "ProcedureRequest",
                             "RelatedPerson",
                             "Schedule",
-                            "Slot"];
+                            "Slot"]; 
         
         var patient = smart.patient;
         var pt = patient.read();
