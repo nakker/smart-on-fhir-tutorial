@@ -80,16 +80,21 @@ function fetchall(smart, name) {
         });
         
         properties.forEach(function (obj_name){
-          console.log(obj_name);
-          values[obj_name] = fetchall(smart, obj_name);
-          $.when(values[obj_name]).fail(onError);
-          $.when(values[obj_name]).done(function(object) {
-            if(object) {
-              console.log("-----------------"+obj_name+"------------------");
-              console.log(object);
-              $('#all_the_data').html($('#all_the_data').html() + "<br/><br/><h2>"+obj_name+"</h2><p style='font-size:6px'>" + JSON.stringify(object) + '</p>');
-            }
-          });
+            var loadme = $( "#loading" ).clone();
+            loadme.children(".name").text(obj_name);
+            loadme.attr('id', 'loading_'+ obj_name);
+            loadme.appendTo( "#all_the_data" );
+            
+            console.log(obj_name);
+            values[obj_name] = fetchall(smart, obj_name);
+            $.when(values[obj_name]).fail(onError);
+            $.when(values[obj_name]).done(function(object) {
+                if(object) {
+                    console.log("-----------------"+obj_name+"------------------");
+                    console.log(object);
+                    $('#loading_' + obj_name).html($('#all_the_data').html() + "<h2>"+obj_name+"</h2><p style='font-size:6px'>" + JSON.stringify(object) + '</p>');
+                }
+            });
         });
       
         
