@@ -58,13 +58,23 @@ function fetchall(smart, name, query) {
         var p = defaults();
         
         var values = {};
+        var now = new Date();
+        //var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        today = mm + '/' + dd + '/' + yyyy;
+
         var properties = [  //["Patient", 
                             ["AllergyIntolerance", null ],
-                            ["Appointment", { code: { $or: ['accepted','proposed', 'booked'] }}],
-                            ["Binary", null],
-                            ["CarePlan", null],
+                            ["Appointment", { date: { $or: [ yyyy + '-' + mm ] }}],
+                            //["Binary", null],
+                            ["CarePlan", { category: "careteam"}],
+                            ["CarePlan", { category: "assess-plan"}],
+                            ["CarePlan", { category: "longitudinal"}],
+                            //["CarePlan", { category: "encounter", context: "SET THE ENCOUNTER ID"}],
                             ["Condition", null],
-                            ["Contract", null],
+                            //["Contract", null],
                             ["Device", null],
                             ["DiagnosticReport", null],
                             //["DocumentReference", null],
