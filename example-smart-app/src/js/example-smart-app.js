@@ -91,7 +91,7 @@ function fetchall(smart, name, query) {
                             ["ProcedureRequest", null],
                             ["RelatedPerson", null],
                             //["Schedule", null],
-                            //["Slot", null]
+                            //["Slot", null] 
                             ]; 
         
 
