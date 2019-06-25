@@ -130,7 +130,9 @@ function fetchall(smart, name, query) {
                         
                         p.content += "<h2>"+obj_name+"</h2><div class='indented bordered'>";
                         object.forEach(function (o){
-                            p.content +=  "<div class='subsection'>" + o.text.div + "</div>"
+                            if(o && o.text) {
+                                p.content +=  "<div class='subsection'>" + o.text.div + "</div>";
+                            }
                         });
                         p.content += "</div>";
                         props_loaded += 1;
