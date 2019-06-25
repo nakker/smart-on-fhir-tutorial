@@ -126,7 +126,7 @@ function fetchall(smart, name, query) {
                         console.log("-----------------"+obj_name+"------------------");
                         console.log(object);
                         
-                        p.content += "<h2>"+obj_name+"</h2><div>";
+                        p.content += "<h2>"+obj_name+"</h2><div class='indented bordered'>";
                         object.forEach(function (o){
                             p.content +=  o.text.div;
                         });

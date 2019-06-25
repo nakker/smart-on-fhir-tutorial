@@ -39,6 +39,15 @@ body {
   animation-delay: -0.16s;
 }
 
+.indented  {
+    padding: 40px;
+}
+
+.bordered {
+    border: thin black solid;
+    background-color: #efefef;
+}
+
 @-webkit-keyframes sk-bouncedelay {
   0%, 80%, 100% { -webkit-transform: scale(0) }
   40% { -webkit-transform: scale(1.0) }
