@@ -59,11 +59,9 @@ function fetchall(smart, name, query) {
         
         var values = {};
         var now = new Date();
-        //var dd = String(today.getDate()).padStart(2, '0');
-        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        var yyyy = today.getFullYear();
-
-        today = mm + '/' + dd + '/' + yyyy;
+        //var dd = String(now.getDate()).padStart(2, '0');
+        var mm = String(now.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = now.getFullYear();
 
         var properties = [  //["Patient", 
                             ["AllergyIntolerance", null ],
@@ -85,12 +83,13 @@ function fetchall(smart, name, query) {
                             ["MedicationOrder", null],
                             ["MedicationStatement", null],
                             ["Observation", null],
-                            ["Person", null],
+                            //["Person", null],
                             ["Procedure", null],
                             ["ProcedureRequest", null],
                             ["RelatedPerson", null],
-                            ["Schedule", null],
-                            ["Slot", null]]; 
+                            //["Schedule", null],
+                            //["Slot", null]
+                            ]; 
         
         var patient = smart.patient;
         var pt = patient.read();
