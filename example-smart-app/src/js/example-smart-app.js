@@ -12,9 +12,10 @@ function synthesize_coded_objects(objs) {
     return obj_string;
 }
 
-function fetchall(smart, name) {
+function fetchall(smart, name, query) {
     var val = smart.patient.api.fetchAll({
-      type: name
+      type: name,
+      query: query
     });
     return val;
 }
@@ -57,29 +58,29 @@ function fetchall(smart, name) {
         var p = defaults();
         
         var values = {};
-        var properties = [  //"Patient", 
+        var properties = [  //["Patient", 
                             ["AllergyIntolerance", { code: { $or: ['accepted','proposed', 'booked'] }} ],
-                            "Appointment",
-                            "Binary",
-                            "CarePlan",
-                            "Condition",
-                            "Contract",
-                            "Device",
-                            "DiagnosticReport",
-                            //"DocumentReference",
-                            "Encounter",
-                            "Goal",
-                            "Immunization",
-                            "MedicationAdministration",
-                            "MedicationOrder",
-                            "MedicationStatement",
-                            "Observation",
-                            "Person",
-                            "Procedure",
-                            "ProcedureRequest",
-                            "RelatedPerson",
-                            "Schedule",
-                            "Slot"]; 
+                            ["Appointment", null],
+                            ["Binary", null],
+                            ["CarePlan", null],
+                            ["Condition", null],
+                            ["Contract", null],
+                            ["Device", null],
+                            ["DiagnosticReport", null],
+                            //["DocumentReference", null],
+                            ["Encounter", null],
+                            ["Goal", null],
+                            ["Immunization", null],
+                            ["MedicationAdministration", null],
+                            ["MedicationOrder", null],
+                            ["MedicationStatement", null],
+                            ["Observation", null],
+                            ["Person", null],
+                            ["Procedure", null],
+                            ["ProcedureRequest", null],
+                            ["RelatedPerson", null],
+                            ["Schedule", null],
+                            ["Slot", null]]; 
         
         var patient = smart.patient;
         var pt = patient.read();
@@ -93,9 +94,12 @@ function fetchall(smart, name) {
         });
         
         
-        properties.forEach(function (obj_name){
+        properties.forEach(function (myarray_o_shit){
             
-            values[obj_name] = fetchall(smart, obj_name);
+            var obj_name = myarray_o_shit[0];
+            var query    = myarray_o_shit[1];
+            
+            values[obj_name] = fetchall(smart, obj_name, query);
             
             $.when(values[obj_name]).fail(function() {
                 console.log('/!\\ ' + arguments[0].config.type + ' Loading error: ' + arguments[0].error.responseText, arguments);
