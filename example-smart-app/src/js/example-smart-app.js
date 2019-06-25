@@ -63,12 +63,13 @@ function fetchall(smart, name, query) {
         var patient = smart.patient;
         var pt = patient.read();
         var props_loaded = 0;
-        
         var values = {};
         var now = new Date(); 
         //var dd = String(now.getDate()).padStart(2, '0');
         var mm = String(now.getMonth() + 1).padStart(2, '0'); //January is 0!
         var yyyy = now.getFullYear() -1;
+
+        console.log(pt, patient);
 
         var properties = [  //["Patient", 
                             ["AllergyIntolerance", null ],
@@ -104,39 +105,38 @@ function fetchall(smart, name, query) {
             console.log("#################### Patient ####################");
             console.log(Patient);
             p.patient = Patient.text.div;
-            is_resolved(props_loaded, properties, p, ret);
-        });
-        
-        
-        properties.forEach(function (myarray_o_shit){
             
-            var obj_name = myarray_o_shit[0];
-            var query    = myarray_o_shit[1];
-            
-            values[obj_name] = fetchall(smart, obj_name, query);
-            
-            $.when(values[obj_name]).fail(function() {
-                onError(arguments);
-                props_loaded += 1;
-                is_resolved(props_loaded, properties, p, ret);
-            });
-            
-            $.when(values[obj_name]).done(function(object) {
-                if(object) {
-                    console.log("-----------------"+obj_name+"------------------");
-                    console.log(object);
-                    
-                    p.content += "<h2>"+obj_name+"</h2><div>";
-                    object.forEach(function (o){
-                        p.content +=  o.text.div;
-                    });
-                    p.content += "</div>";
+            //Load all of the patient dependent items
+            properties.forEach(function (myarray_o_shit){
+                
+                var obj_name = myarray_o_shit[0];
+                var query    = myarray_o_shit[1];
+                query.patient = Patient.id;
+                
+                values[obj_name] = fetchall(smart, obj_name, query);
+                
+                $.when(values[obj_name]).fail(function() {
+                    onError(arguments);
                     props_loaded += 1;
                     is_resolved(props_loaded, properties, p, ret);
-                }
+                });
+                
+                $.when(values[obj_name]).done(function(object) {
+                    if(object) {
+                        console.log("-----------------"+obj_name+"------------------");
+                        console.log(object);
+                        
+                        p.content += "<h2>"+obj_name+"</h2><div>";
+                        object.forEach(function (o){
+                            p.content +=  o.text.div;
+                        });
+                        p.content += "</div>";
+                        props_loaded += 1;
+                        is_resolved(props_loaded, properties, p, ret);
+                    }
+                });
             });
         });
-      
         
       } else {
         onError();
