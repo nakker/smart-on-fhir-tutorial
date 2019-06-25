@@ -112,7 +112,13 @@ function fetchall(smart, name, query) {
             values[obj_name] = fetchall(smart, obj_name, query);
             
             $.when(values[obj_name]).fail(function() {
-                console.log('/!\\ ' + arguments[0].config.type + ' Loading error: ' + arguments[0].error.responseText, arguments);
+                
+                if(arguments[0]) {
+                    console.log('/!\\ ' + arguments[0].config.type + ' Loading error: ' + arguments[0].error.responseText, arguments);
+                } else {
+                    console.log('/!\\ Loading error: ' , arguments);
+                }
+                
                 props_loaded += 1;
                 is_resolved(props_loaded, properties, p, ret);
             });
