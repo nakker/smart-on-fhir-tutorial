@@ -59,7 +59,7 @@ function fetchall(smart, name, query) {
         var patient = smart.patient;
         var pt = patient.read();
         var props_loaded = 0;
-        console.log("patient: ", patient );
+        
         var values = {};
         var now = new Date(); 
         //var dd = String(now.getDate()).padStart(2, '0');
@@ -68,7 +68,7 @@ function fetchall(smart, name, query) {
 
         var properties = [  //["Patient", 
                             ["AllergyIntolerance", null ],
-                            ["Appointment", { date: { $or: [ yyyy + '-' + mm ] }, patient: patient.id }],
+                            ["Appointment", { date: yyyy + '-' + mm  }],
                             //["Binary", null],
                             ["CarePlan", { category: "careteam"}],
                             ["CarePlan", { category: "assess-plan"}],
