@@ -111,7 +111,7 @@ function fetchall(smart, name) {
                     p.content += "<h2>"+obj_name+"</h2>";
                     object.forEach(function (o){
                         p.content += "<p style='font-size:10px'>" + o.text.div + '</p>';
-                    }
+                    });
                     props_loaded += 1;
                     is_resolved(props_loaded, properties, p, ret);
                 }
