@@ -58,7 +58,7 @@ function fetchall(smart, name) {
         
         var values = {};
         var properties = [  //"Patient", 
-                            "AllergyIntolerance",
+                            ["AllergyIntolerance", { code: { $or: ['accepted','proposed', 'booked'] }} ],
                             "Appointment",
                             "Binary",
                             "CarePlan",
@@ -108,10 +108,11 @@ function fetchall(smart, name) {
                     console.log("-----------------"+obj_name+"------------------");
                     console.log(object);
                     
-                    p.content += "<h2>"+obj_name+"</h2>";
+                    p.content += "<h2>"+obj_name+"</h2><div>";
                     object.forEach(function (o){
-                        p.content += "<p style='font-size:10px'>" + o.text.div + '</p>';
+                        p.content +=  o.text.div;
                     });
+                    p.content += "</div>";
                     props_loaded += 1;
                     is_resolved(props_loaded, properties, p, ret);
                 }
@@ -141,6 +142,7 @@ function fetchall(smart, name) {
     $('#loading').hide();
     $('#patient_data').html(p.patient);
     $('#all_the_data').html(p.content);
+    $( "#all_the_data" ).accordion();
     
   };
 
