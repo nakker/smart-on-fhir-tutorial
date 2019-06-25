@@ -58,7 +58,7 @@ function fetchall(smart, name, query) {
         var p = defaults();
         
         var values = {};
-        var now = new Date();
+        var now = new Date(); 
         //var dd = String(now.getDate()).padStart(2, '0');
         var mm = String(now.getMonth() + 1).padStart(2, '0'); //January is 0!
         var yyyy = now.getFullYear();
