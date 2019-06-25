@@ -108,7 +108,7 @@ function fetchall(smart, name) {
                     console.log("-----------------"+obj_name+"------------------");
                     console.log(object);
                     
-                    p.content += "<b>"+obj_name+"</b>";
+                    p.content += "<h2>"+obj_name+"</h2>";
                     object.forEach(function (o){
                         p.content += "<p style='font-size:10px'>" + o.text.div + '</p>';
                     });
@@ -131,8 +131,8 @@ function fetchall(smart, name) {
 
   function defaults(){
     return {
-      patient: {value: ''},
-      content: {value: ''}
+      patient: "",
+      content: ""
     };
   }
 
