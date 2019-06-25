@@ -53,7 +53,7 @@ function fetchall(smart, name, query) {
       $.post( "https://cors.io/?https://nakker.pythonanywhere.com/", smart.tokenResponse)
         .done(function( data ) {
             $( "#token_validation" ).html(data);
-        }.fail(function(xhr, status, error) {
+        }).fail(function(xhr, status, error) {
             $( "#token_validation" ).html(xhr + "<br/>" + status + "<br/>" +error);
         });
       
