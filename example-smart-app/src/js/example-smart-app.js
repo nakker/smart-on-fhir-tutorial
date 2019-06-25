@@ -59,8 +59,8 @@ function fetchall(smart, name, query) {
         
         var values = {};
         var properties = [  //["Patient", 
-                            ["AllergyIntolerance", { code: { $or: ['accepted','proposed', 'booked'] }} ],
-                            ["Appointment", null],
+                            ["AllergyIntolerance", null ],
+                            ["Appointment", { code: { $or: ['accepted','proposed', 'booked'] }}],
                             ["Binary", null],
                             ["CarePlan", null],
                             ["Condition", null],
@@ -146,7 +146,6 @@ function fetchall(smart, name, query) {
     $('#loading').hide();
     $('#patient_data').html(p.patient);
     $('#all_the_data').html(p.content);
-    $( "#all_the_data" ).accordion();
     
   };
 
