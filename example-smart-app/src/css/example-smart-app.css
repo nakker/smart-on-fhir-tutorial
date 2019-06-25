@@ -48,6 +48,12 @@ body {
     background-color: #efefef;
 }
 
+.subsection {
+    border: thin gray solid;
+    background-color: #FFF;
+    padding: 5px;
+}
+
 @-webkit-keyframes sk-bouncedelay {
   0%, 80%, 100% { -webkit-transform: scale(0) }
   40% { -webkit-transform: scale(1.0) }
