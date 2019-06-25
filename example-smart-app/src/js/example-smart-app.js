@@ -36,8 +36,12 @@ function fetchall(smart, name, query) {
         }
     }
     
-    function onError() {
-      console.log('/!\\ ' + arguments[0].config.type + ' Loading error: ' + arguments[0].error.responseText, arguments);
+    function onError(arguments) {
+        if(arguments[0]) {
+            console.log('/!\\ ' + arguments[0].config.type + ' Loading error: ' + arguments[0].error.responseText, arguments);
+        } else {
+            console.log('/!\\ Loading error: ', arguments);
+        }
       //ret.reject();
     }
 
@@ -64,15 +68,15 @@ function fetchall(smart, name, query) {
         var now = new Date(); 
         //var dd = String(now.getDate()).padStart(2, '0');
         var mm = String(now.getMonth() + 1).padStart(2, '0'); //January is 0!
-        var yyyy = now.getFullYear();
+        var yyyy = now.getFullYear() -1;
 
         var properties = [  //["Patient", 
                             ["AllergyIntolerance", null ],
-                            ["Appointment", { date: yyyy + '-' + mm  }],
+                            ["Appointment", { date: yyyy + '-' + mm }],
                             //["Binary", null],
-                            ["CarePlan", { category: "careteam"}],
-                            ["CarePlan", { category: "assess-plan"}],
-                            ["CarePlan", { category: "longitudinal"}],
+                            ["CarePlan", { category: "careteam",     date: "ge" + yyyy + '-' + mm}],
+                            ["CarePlan", { category: "assess-plan",  date: "ge" + yyyy + '-' + mm}],
+                            ["CarePlan", { category: "longitudinal", date: "ge" + yyyy + '-' + mm}],
                             //["CarePlan", { category: "encounter", context: "SET THE ENCOUNTER ID"}],
                             ["Condition", null],
                             //["Contract", null],
@@ -112,13 +116,7 @@ function fetchall(smart, name, query) {
             values[obj_name] = fetchall(smart, obj_name, query);
             
             $.when(values[obj_name]).fail(function() {
-                
-                if(arguments[0]) {
-                    console.log('/!\\ ' + arguments[0].config.type + ' Loading error: ' + arguments[0].error.responseText, arguments);
-                } else {
-                    console.log('/!\\ Loading error: ' , arguments);
-                }
-                
+                onError(arguments);
                 props_loaded += 1;
                 is_resolved(props_loaded, properties, p, ret);
             });
