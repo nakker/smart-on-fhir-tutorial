@@ -59,7 +59,7 @@ function fetchall(smart, name, query) {
         var patient = smart.patient;
         var pt = patient.read();
         var props_loaded = 0;
-        
+        console.log("pt: ", pt );
         var values = {};
         var now = new Date(); 
         //var dd = String(now.getDate()).padStart(2, '0');
