@@ -56,6 +56,9 @@ function fetchall(smart, name, query) {
       //Get the data from Cerner
       if (smart.hasOwnProperty('patient')) {
         var p = defaults();
+        var patient = smart.patient;
+        var pt = patient.read();
+        var props_loaded = 0;
         
         var values = {};
         var now = new Date(); 
@@ -65,7 +68,7 @@ function fetchall(smart, name, query) {
 
         var properties = [  //["Patient", 
                             ["AllergyIntolerance", null ],
-                            ["Appointment", { date: { $or: [ yyyy + '-' + mm ] }}],
+                            ["Appointment", { date: { $or: [ yyyy + '-' + mm ] }, patient: pt.id }],
                             //["Binary", null],
                             ["CarePlan", { category: "careteam"}],
                             ["CarePlan", { category: "assess-plan"}],
@@ -91,9 +94,7 @@ function fetchall(smart, name, query) {
                             //["Slot", null]
                             ]; 
         
-        var patient = smart.patient;
-        var pt = patient.read();
-        var props_loaded = 0;
+
         
         $.when(pt).done(function(Patient) {
             console.log("#################### Patient ####################");
