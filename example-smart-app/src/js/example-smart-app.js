@@ -56,7 +56,7 @@ function fetchall(smart, name, query) {
 			$( "#token_validation" ).html(data);
 		}).fail(function(xhr, status, error) {
 			$( "#token_validation" ).html(xhr + "<br/>" + status + "<br/>" +error);
-		});
+		}); 
 	  
 	  //Get data from CM
 
