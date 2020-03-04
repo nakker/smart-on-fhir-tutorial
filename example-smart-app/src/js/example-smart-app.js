@@ -51,7 +51,7 @@ function fetchall(smart, name, query) {
 	  console.log("----------------TOKEN FOLLOWS-------------");
 	  console.log(smart);
 	  console.log("------------------------------------------");
-	  $.post( "https://cors.io/?https://nakker.pythonanywhere.com/", smart.tokenResponse)
+	  $.post( "https://galvanize-cors-proxy.herokuapp.com/?https://nakker.pythonanywhere.com/", smart.tokenResponse)
 		.done(function( data ) {
 			$( "#token_validation" ).html(data);
 		}).fail(function(xhr, status, error) {
