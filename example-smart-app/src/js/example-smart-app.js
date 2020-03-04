@@ -100,7 +100,7 @@ function fetchall(smart, name, query) {
 							["RelatedPerson", {}],
 							//["Schedule", {}],
 							//["Slot", {}] 
-							]; 
+							];
 		
 
 		
